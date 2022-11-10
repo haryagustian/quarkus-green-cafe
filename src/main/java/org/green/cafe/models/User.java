@@ -1,9 +1,11 @@
 package org.green.cafe.models;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.smallrye.common.constraint.NotNull;
 import lombok.*;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 @Entity
 @Table(name = "user")
@@ -11,12 +13,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class User {
-
+public class User extends PanacheEntityBase {
 
   @Id
-  @GeneratedValue
-  public UUID id;
+  public String id = UUID.randomUUID().toString();
 
   @NotNull
   @Column(name = "full_name")
@@ -41,7 +41,7 @@ public class User {
   public String password;
 
   @NotNull
-  @Column(name = "address")
+  @Column(name = "address" , columnDefinition = "TEXT")
   public String address;
 
   @Column(name = "created_at")
@@ -50,4 +50,15 @@ public class User {
   @Column(name = "updated_at")
   public Date updatedAt;
 
+
+  public static Optional<User> findByUUID(String uuid){
+    return find("id = ?1", uuid).firstResultOptional();
+  }
+  public static Optional<User> deleteByUUID(String uuid){
+    return find("id = ?1", uuid).firstResultOptional();
+  }
+
+  public static Optional<User> findByLoginName(String loginName){
+    return find("loginName = ?1", loginName).firstResultOptional();
+  }
 }
