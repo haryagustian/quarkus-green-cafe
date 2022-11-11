@@ -3,10 +3,7 @@ package org.green.cafe.services;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import org.green.cafe.models.User;
 import org.green.cafe.models.dto.AuthDTO;
-import org.green.cafe.models.dto.UserDTO;
 import org.green.cafe.util.GenerateJWT;
-import org.jboss.logging.Logger;
-import org.wildfly.security.password.interfaces.BCryptPassword;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.core.Response;
@@ -15,8 +12,8 @@ import java.util.Optional;
 
 @ApplicationScoped
 public class AuthService {
-
   public Response getToken(AuthDTO authDTO){
+
     Optional<User> userOptional = User.findByLoginName(authDTO.loginName);
     if(userOptional.isEmpty()){
       return Response.status(Response.Status.NOT_FOUND).entity(Map.of("message", "USER NOT FOUND")).build();

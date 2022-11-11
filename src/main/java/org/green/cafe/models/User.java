@@ -58,6 +58,10 @@ public class User extends PanacheEntityBase {
     return find("id = ?1", uuid).firstResultOptional();
   }
 
+  public static Optional<User> findByToken(String token){
+    return find("token =? ", token).firstResultOptional();
+  }
+
   public static Optional<User> findByLoginName(String loginName){
     return find("loginName = ?1", loginName).firstResultOptional();
   }

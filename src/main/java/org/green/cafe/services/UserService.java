@@ -24,13 +24,14 @@ public class UserService {
     postUser.setCreatedAt(new Date());
     postUser.setUpdatedAt(new Date());
     postUser.persist();
+
     return
         postUser.isPersistent() ?
             Response.ok(Map.of("userData", User.list("id = ?1", postUser.id),"token", GenerateJWT.generateToken(postUser))).build() :
             Response.status(Response.Status.NOT_FOUND).build();
   }
 
-  public Response get(){
+  public Response get() {
     List<User> user = User.listAll();
     return
         user.isEmpty() ?
@@ -58,8 +59,11 @@ public class UserService {
 
   public Response delete(String uuid){
     Optional<User> user = User.deleteByUUID(uuid);
-    return user.isPresent() ?
-        Response.noContent().build() :
-        Response.status(Response.Status.BAD_REQUEST).build();
+    if(user.isPresent()){
+      user.get().delete();
+    }
+    return user.isEmpty() ?
+        Response.status(Response.Status.BAD_REQUEST).build() :
+        Response.noContent().build();
   }
 }

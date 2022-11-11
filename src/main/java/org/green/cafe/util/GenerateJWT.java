@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 
 @Singleton
 public class GenerateJWT {
+
+
   public static String generateToken(User user){
     return Jwt.issuer("green-cafe")
         .upn(user.loginName)
