@@ -1,38 +1,55 @@
 package org.green.cafe.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "order_item")
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
 public class OrderItem extends PanacheEntityBase {
+
   @Id
-  public String id = UUID.randomUUID().toString();
+  @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+  @GeneratedValue(generator = "uuid")
+  @Column(name = "id", length = 36, nullable = false)
+  @Getter
+  @Setter
+  private String id;
 
-  @Column(name = "quantity")
-  public Integer quantity;
-
-  @Column(name = "price_total")
-  public Double priceTotal;
-
-  @Column(name = "note", columnDefinition = "TEXT")
-  public String note;
-
-  @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, targetEntity = Order.class)
+  @Getter
+  @Setter
+  @ManyToOne(targetEntity = Order.class,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
   @JoinColumn(name = "order_id")
-  public Order order;
+  private Order order;
 
-  @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, targetEntity = Item.class)
+  @Getter
+  @Setter
+  @JsonIgnore
+  @ManyToOne(targetEntity = Item.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "item_id")
-  public Item item;
+  private Item item;
+
+  @Getter
+  @Setter
+  @Column(name = "quantity", nullable = false)
+  private Integer quantity;
+
+  @Getter
+  @Setter
+  @Column(name = "price_total", nullable = false)
+  private Double priceTotal;
+
+  @Getter
+  @Setter
+  @Column(name = "note", columnDefinition = "text")
+  private String note;
+
+  public OrderItem() {
+    super();
+  }
 }

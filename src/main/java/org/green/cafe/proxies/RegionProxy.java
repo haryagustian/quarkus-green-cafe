@@ -1,13 +1,14 @@
 package org.green.cafe.proxies;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
-import org.green.cafe.models.dto.DistrictsDTO;
-import org.green.cafe.models.dto.ProvincesDTO;
-import org.green.cafe.models.dto.RegencyCitiesDTO;
-import org.green.cafe.models.dto.VillagesDTO;
+import org.green.cafe.models.dto.DistrictResponse;
+import org.green.cafe.models.dto.ProvinceResponse;
+import org.green.cafe.models.dto.RegencyCitiyResponse;
+import org.green.cafe.models.dto.VillageResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @Path("/api-wilayah-indonesia/api")
@@ -18,17 +19,17 @@ public interface RegionProxy {
 
   @GET
   @Path("/provinces.json")
-  List<ProvincesDTO> listProvince();
+  List<ProvinceResponse> listProvince();
 
   @GET
   @Path("/regencies/{provinceId}.json")
-  List<RegencyCitiesDTO> listCity(@PathParam("provinceId") String provinceId);
+  List<RegencyCitiyResponse> listCity(@PathParam("provinceId") String provinceId);
 
   @GET
   @Path("/districts/{cityId}.json")
-  List<DistrictsDTO> listDistrict(@PathParam("cityId") String cityId);
+  List<DistrictResponse> listDistrict(@PathParam("cityId") String cityId);
 
   @GET
   @Path("/villages/{districtId}.json")
-  List<VillagesDTO> listVillage(@PathParam("districtId") String districtId);
+  List<VillageResponse> listVillage(@PathParam("districtId") String districtId);
 }

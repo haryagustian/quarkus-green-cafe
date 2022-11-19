@@ -1,48 +1,68 @@
 package org.green.cafe.models;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import org.green.cafe.models.bases.UpdatedBase;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "item")
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
-public class Item extends PanacheEntityBase {
+public class Item extends UpdatedBase {
 
   @Id
-  public String id = UUID.randomUUID().toString();
+  @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+  @GeneratedValue(generator = "uuid")
+  @Column(name = "id", length = 36, nullable = false)
+  @Getter
+  @Setter
+  private String id;
 
-  @Column(name = "name")
-  public String name;
+  @Getter
+  @Setter
+  @Column(name = "name", nullable = false)
+  private String name;
 
-  @Column(name = "description", columnDefinition = "TEXT")
-  public String description;
+  @Getter
+  @Setter
+  @Column(name = "description", columnDefinition = "text", nullable = false)
+  private String description;
 
-  @Column(name = "category")
-  public String category;
+  @Getter
+  @Setter
+  @Column(name = "category", nullable = false, length = 10)
+  private String category;
 
+  @Getter
+  @Setter
   @Column(name = "price")
-  public Double price;
+  private Double price;
 
-  @Column(name = "created_at")
-  public Date createdAt;
+  @Getter
+  @Setter
+  @ManyToOne(targetEntity = User.class)
+  @JoinColumn(name = "created_by")
+  @JsonIgnore
+  private User createdBy;
 
-  @Column(name = "updated_at")
-  public Date updatedAt;
+  @Getter
+  @Setter
+  @ManyToOne(targetEntity = User.class)
+  @JoinColumn(name = "updated_by")
+  @JsonIgnore
+  private User updatedBy;
 
-  @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, targetEntity = User.class)
-  @JoinColumns({
-      @JoinColumn(name = "created_by", referencedColumnName = "created_at"),
-      @JoinColumn(name = "updated_by", referencedColumnName = "updated_at")
-  })
-  public User user;
+  public Item() {
+    super();
+  }
+
+  public static Long countByCategory(String category){
+    if(category != null){
+      return Item.count("category = ?1", category);
+    }else {
+      return Item.count();
+    }
+  }
 }

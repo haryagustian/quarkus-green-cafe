@@ -1,49 +1,60 @@
 package org.green.cafe.models;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.jboss.logging.Logger;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import org.green.cafe.models.bases.CreatedBase;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.UUID;
 
 @Entity
-@Table(name = "order_list")
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
-public class Order extends PanacheEntityBase {
-
-  Logger logger = Logger.getLogger(Order.class);
+@Table(name = "order")
+public class Order extends CreatedBase {
 
   @Id
-  public String id = UUID.randomUUID().toString();
+  @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+  @GeneratedValue(generator = "uuid")
+  @Column(name = "id", length = 36, nullable = false)
+  @Getter
+  @Setter
+  private String id;
 
-  @Column(name = "code")
-  public String code;
 
-  @Column(name = "total")
-  public Double total;
-
-  @Column(name = "sub_total")
-  public Double subTotal;
-
-  @Column(name = "tax")
-  public Double tax;
-
-  @Column(name = "created_at")
-  public Date createdAt;
-
-  @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, targetEntity = Employee.class)
+  @ManyToOne(targetEntity = Employee.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "cashier")
-  public Employee employee;
+  @JsonIgnore
+  @Getter
+  @Setter
+  private Employee employee;
 
-  @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, targetEntity = PaymentType.class)
+  @Getter
+  @Setter
+  @Column(name = "code", nullable = false)
+  private String code;
+
+  @Getter
+  @Setter
+  @Column(name = "total", nullable = false)
+  private Double total;
+
+  @Getter
+  @Setter
+  @Column(name = "sub_total", nullable = false)
+  private Double subTotal;
+
+  @Getter
+  @Setter
+  @Column(name = "tax", nullable = false)
+  private Double tax;
+
+  @Getter
+  @Setter
+  @ManyToOne(targetEntity = PaymentType.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "payment_type_id")
-  public PaymentType paymentType;
+  private PaymentType paymentType;
+
+  public Order() {
+    super();
+  }
 }

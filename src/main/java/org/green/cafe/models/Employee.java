@@ -1,64 +1,105 @@
 package org.green.cafe.models;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import org.green.cafe.models.bases.UpdatedBase;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.UUID;
+import java.util.Optional;
 
 @Entity
 @Table(name = "employee")
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
-public class Employee extends PanacheEntityBase {
+public class Employee extends UpdatedBase {
+
   @Id
-  public String id = UUID.randomUUID().toString();
+  @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+  @GeneratedValue(generator = "uuid")
+  @Column(name = "id", length = 36, nullable = false)
+  @Getter
+  @Setter
+  private String id;
 
-  @Column(name = "full_name")
-  public String fullName;
+  @Getter
+  @Setter
+  @Column(name = "full_name", length = 255)
+  private String fullName;
 
-  @Column(name = "gender")
-  public String gender;
+  @Getter
+  @Setter
+  @Column(name = "gender", length = 10)
+  private String gender;
 
+  @Getter
+  @Setter
   @Column(name = "dob")
-  public Date dob;
+  private Date dob;
 
-  @Column(name = "pob")
-  public Date pob;
+  @Getter
+  @Setter
+  @Column(name = "pob", length = 55, nullable = false)
+  private String pob;
 
-  @Column(name = "email")
-  public String email;
+  @Getter
+  @Setter
+  @Column(name = "email", length = 200, nullable = false)
+  private String email;
 
-  @Column(name = "mobile_phone_number")
-  public String mobilePhoneNumber;
+  @Getter
+  @Setter
+  @Column(name = "mobile_phone_number",nullable = false, length = 20)
+  private String mobilePhoneNumber;
 
-  @Column(name = "created_at")
-  public Date createdAt;
+  @Getter
+  @Setter
+  @Column(name = "is_active", nullable = false)
+  private Boolean isActive;
 
-  @Column(name = "updated_at")
-  public Date updatedAt;
+  @ManyToOne(targetEntity = JobPosition.class)
+  @JoinColumn(name = "job_position_id", nullable = false)
+  @JsonIgnore
+  @Getter
+  @Setter
+  private JobPosition jobPosition;
 
-  @Column(name = "is_active")
-  public Boolean isActive;
+  @ManyToOne(targetEntity = LastEducation.class)
+  @JoinColumn(name = "last_education_id", nullable = false)
+  @JsonIgnore
+  @Getter
+  @Setter
+  private LastEducation lastEducation;
 
-  @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, targetEntity = User.class)
-  @JoinColumns({
-      @JoinColumn(name = "created_by", referencedColumnName = "created_at"),
-      @JoinColumn(name = "updated_by", referencedColumnName = "updated_at")
-  })
-  public User user;
+  @ManyToOne(targetEntity = User.class)
+  @JoinColumn(name = "created_by", nullable = false)
+  @JsonIgnore
+  @Getter
+  @Setter
+  private User createdBy;
 
-  @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, targetEntity = LastEducation.class)
-  @JoinColumn(name = "last_education_id")
-  public LastEducation lastEducation;
+  @ManyToOne(targetEntity = User.class)
+  @JoinColumn(name = "updated_by", nullable = false)
+  @JsonIgnore
+  @Getter
+  @Setter
+  private User updatedBy;
 
-  @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, targetEntity = JobPosition.class)
-  @JoinColumn(name = "job_position_id")
-  public JobPosition jobPosition;
+  public Employee() {
+    super();
+  }
+
+  public static Optional<Employee> findByIdOptionalActive(String userUUID){
+    return Employee.find("id = ?1 AND is_active = ?2",userUUID,true).firstResultOptional();
+  }
+
+  public static Long countByJobPosition(String jobPositionId){
+    if(jobPositionId != null){
+      return Employee.count("job_position_id = ?1", jobPositionId);
+    }else {
+      return Employee.count();
+    }
+  }
+
 }
+

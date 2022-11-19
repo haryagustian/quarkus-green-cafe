@@ -1,68 +1,73 @@
 package org.green.cafe.models;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import io.smallrye.common.constraint.NotNull;
-import lombok.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+import org.green.cafe.models.bases.UpdatedBase;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
+
 @Entity
 @Table(name = "user")
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
-public class User extends PanacheEntityBase {
+public class User extends UpdatedBase {
 
   @Id
-  public String id = UUID.randomUUID().toString();
+  @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+  @GeneratedValue(generator = "uuid")
+  @Column(name = "id", length = 36, nullable = false)
+  @Getter
+  @Setter
+  private String id;
 
-  @NotNull
+  @Getter
+  @Setter
   @Column(name = "full_name")
-  public String fullName;
+  private String fullName;
 
-  @NotNull
-  @Column(name = "email", unique = true)
-  public String email;
+  @Getter
+  @Setter
+  @Column(name = "email", nullable = false, length = 100)
+  private String email;
 
-  @Column(name = "mobile_phone_number")
-  public String mobilePhoneNumber;
+  @Getter
+  @Setter
+  @Column(name = "mobile_phone_number", length = 20, nullable = false)
+  private String mobilePhoneNumber;
 
-  @Column(name = "work_phone_number")
-  public String workPhoneNumber;
+  @Getter
+  @Setter
+  @Column(name = "work_phone_number", length = 20, nullable = false)
+  private String workPhoneNumber;
 
-  @NotNull
-  @Column(name = "login_name")
-  public String loginName;
+  @Getter
+  @Setter
+  @Column(name = "login_name", nullable = false)
+  private String loginName;
 
-  @NotNull
-  @Column(name = "password")
-  public String password;
+  @Getter
+  @Setter
+  @Column(name = "password", nullable = false)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private String password;
 
-  @NotNull
-  @Column(name = "address" , columnDefinition = "TEXT")
-  public String address;
+  @Getter
+  @Setter
+  @Column(name = "address" , columnDefinition = "text", nullable = false)
+  private String address;
 
-  @Column(name = "created_at")
-  public Date createdAt;
-
-  @Column(name = "updated_at")
-  public Date updatedAt;
-
-
-  public static Optional<User> findByUUID(String uuid){
-    return find("id = ?1", uuid).firstResultOptional();
+  public User() {
+    super();
   }
-  public static Optional<User> deleteByUUID(String uuid){
-    return find("id = ?1", uuid).firstResultOptional();
-  }
 
-  public static Optional<User> findByToken(String token){
-    return find("token =? ", token).firstResultOptional();
+  public static Boolean isEmptyLoginName(String loginName){
+    return find("login_name = ?1", loginName).firstResultOptional().isEmpty();
   }
 
   public static Optional<User> findByLoginName(String loginName){
-    return find("loginName = ?1", loginName).firstResultOptional();
+    return find("login_name = ?1", loginName).firstResultOptional();
   }
+
 }

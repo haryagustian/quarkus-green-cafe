@@ -1,34 +1,35 @@
 package org.green.cafe.models;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import org.green.cafe.models.bases.CreatedBase;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
-import java.util.UUID;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "payment_type")
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
-public class PaymentType extends PanacheEntityBase {
+public class PaymentType extends CreatedBase {
+
   @Id
-  public String id = UUID.randomUUID().toString();
+  @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+  @GeneratedValue(generator = "uuid")
+  @Column(name = "id", length = 36, nullable = false)
+  @Getter
+  @Setter
+  private String id;
 
-  @Column(name = "name")
-  public String name;
+  @Getter
+  @Setter
+  @Column(name = "name", nullable = false)
+  private String name;
 
-  @Column(name = "code")
-  public String code;
+  @Getter
+  @Setter
+  @Column(name = "code", nullable = false)
+  private String code;
 
-  @Column(name = "created_by")
-  public Date createdBy;
+  public PaymentType() {
+    super();
+  }
 }

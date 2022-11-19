@@ -1,34 +1,35 @@
 package org.green.cafe.models;
+import lombok.Getter;
+import lombok.Setter;
+import org.green.cafe.models.bases.CreatedBase;
+import org.hibernate.annotations.GenericGenerator;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
-import java.util.UUID;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "job_position")
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
-public class JobPosition extends PanacheEntityBase {
+public class JobPosition extends CreatedBase {
+
   @Id
-  public String id = UUID.randomUUID().toString();
+  @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+  @GeneratedValue(generator = "uuid")
+  @Column(name = "id", length = 36, nullable = false)
+  @Setter
+  @Getter
+  private String id;
 
-  @Column(name = "title")
-  public String title;
+  @Column(name = "title", length = 30, nullable = false)
+  @Setter
+  @Getter
+  private String title;
 
-  @Column(name = "salary")
-  public Double salary;
+  @Column(name = "salary", nullable = false)
+  @Setter
+  @Getter
+  private Double salary;
 
-  @Column(name = "created_at")
-  public Date createdAt;
+  public JobPosition() {
+    super();
+  }
 }
+
