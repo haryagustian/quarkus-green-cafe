@@ -11,7 +11,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.green.cafe.models.dto.*;
+import org.green.cafe.models.dto.requests.BankRequest;
+import org.green.cafe.models.dto.responses.*;
 import org.green.cafe.services.MetaService;
 
 import javax.annotation.security.PermitAll;

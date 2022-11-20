@@ -1,4 +1,4 @@
-package org.green.cafe.models.dto;
+package org.green.cafe.models.dto.requests;
 import java.util.List;
 
 public class BankRequest{

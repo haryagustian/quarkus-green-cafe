@@ -6,8 +6,8 @@ import org.green.cafe.models.Employee;
 import org.green.cafe.models.JobPosition;
 import org.green.cafe.models.LastEducation;
 import org.green.cafe.models.User;
-import org.green.cafe.models.dto.EmployeeRequest;
-import org.green.cafe.models.dto.EmployeeResponse;
+import org.green.cafe.models.dto.requests.EmployeeRequest;
+import org.green.cafe.models.dto.responses.EmployeeResponse;
 import org.green.cafe.util.DateUtil;
 import org.green.cafe.util.FormatUtil;
 

@@ -1,4 +1,5 @@
 package org.green.cafe.controllers;
+import lombok.Builder;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
@@ -10,8 +11,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.green.cafe.models.dto.LoginRequest;
-import org.green.cafe.models.dto.LoginResponse;
+import org.green.cafe.models.dto.requests.LoginRequest;
+import org.green.cafe.models.dto.responses.LoginResponse;
 import org.green.cafe.services.AuthService;
 
 import javax.annotation.security.PermitAll;
@@ -40,6 +41,7 @@ import javax.ws.rs.core.Response;
         @Tag(name = "Authentication Resource", description = "Authentication Implementation Controller")
     }
 )
+@Builder
 public class AuthController {
 
   @Inject

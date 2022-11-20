@@ -3,8 +3,8 @@ package org.green.cafe.services;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import org.green.cafe.exceptions.ValidationException;
 import org.green.cafe.models.User;
-import org.green.cafe.models.dto.LoginRequest;
-import org.green.cafe.models.dto.LoginResponse;
+import org.green.cafe.models.dto.requests.LoginRequest;
+import org.green.cafe.models.dto.responses.LoginResponse;
 import org.green.cafe.util.FormatUtil;
 import org.green.cafe.util.JwtUtil;
 

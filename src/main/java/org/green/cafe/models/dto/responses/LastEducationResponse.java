@@ -1,4 +1,4 @@
-package org.green.cafe.models.dto;
+package org.green.cafe.models.dto.responses;
 
 import org.green.cafe.models.LastEducation;
 

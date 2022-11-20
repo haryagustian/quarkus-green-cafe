@@ -2,11 +2,10 @@ package org.green.cafe.services;
 
 import io.quarkus.narayana.jta.runtime.TransactionConfiguration;
 import org.green.cafe.exceptions.ValidationException;
-import org.green.cafe.models.Employee;
 import org.green.cafe.models.Item;
 import org.green.cafe.models.User;
-import org.green.cafe.models.dto.ItemRequest;
-import org.green.cafe.models.dto.ItemResponse;
+import org.green.cafe.models.dto.requests.ItemRequest;
+import org.green.cafe.models.dto.responses.ItemResponse;
 import org.green.cafe.util.FormatUtil;
 
 import javax.enterprise.context.ApplicationScoped;

@@ -22,17 +22,17 @@ public class OrderItem extends PanacheEntityBase {
 
   @Getter
   @Setter
-  @ManyToOne(targetEntity = Order.class,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(targetEntity = Order.class)
   @JsonIgnore
   @JoinColumn(name = "order_id")
-  private Order order;
+  private Order orderId;
 
   @Getter
   @Setter
   @JsonIgnore
-  @ManyToOne(targetEntity = Item.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(targetEntity = Item.class)
   @JoinColumn(name = "item_id")
-  private Item item;
+  private Item itemId;
 
   @Getter
   @Setter
@@ -49,7 +49,4 @@ public class OrderItem extends PanacheEntityBase {
   @Column(name = "note", columnDefinition = "text")
   private String note;
 
-  public OrderItem() {
-    super();
-  }
 }

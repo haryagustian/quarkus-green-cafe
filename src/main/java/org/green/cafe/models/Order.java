@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "order")
-public class Order extends CreatedBase {
+public class  Order extends CreatedBase {
 
   @Id
   @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
@@ -21,38 +21,38 @@ public class Order extends CreatedBase {
   private String id;
 
 
-  @ManyToOne(targetEntity = Employee.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(targetEntity = Employee.class)
   @JoinColumn(name = "cashier")
   @JsonIgnore
   @Getter
   @Setter
-  private Employee employee;
+  private Employee cashier;
 
   @Getter
   @Setter
-  @Column(name = "code", nullable = false)
+  @Column(name = "code")
   private String code;
 
   @Getter
   @Setter
-  @Column(name = "total", nullable = false)
+  @Column(name = "total")
   private Double total;
 
   @Getter
   @Setter
-  @Column(name = "sub_total", nullable = false)
+  @Column(name = "sub_total")
   private Double subTotal;
 
   @Getter
   @Setter
-  @Column(name = "tax", nullable = false)
+  @Column(name = "tax")
   private Double tax;
 
   @Getter
   @Setter
-  @ManyToOne(targetEntity = PaymentType.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(targetEntity = PaymentType.class)
   @JoinColumn(name = "payment_type_id")
-  private PaymentType paymentType;
+  private PaymentType paymentTypeId;
 
   public Order() {
     super();

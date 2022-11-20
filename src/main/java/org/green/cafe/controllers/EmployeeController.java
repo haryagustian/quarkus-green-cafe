@@ -15,15 +15,12 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.green.cafe.models.Employee;
-import org.green.cafe.models.dto.EmployeeRequest;
-import org.green.cafe.models.dto.EmployeeResponse;
-import org.green.cafe.models.dto.UserRequest;
+import org.green.cafe.models.dto.requests.EmployeeRequest;
+import org.green.cafe.models.dto.responses.EmployeeResponse;
 import org.green.cafe.services.EmployeeService;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

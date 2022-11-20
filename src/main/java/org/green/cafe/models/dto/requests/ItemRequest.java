@@ -1,4 +1,4 @@
-package org.green.cafe.models.dto;
+package org.green.cafe.models.dto.requests;
 
 public class ItemRequest {
   public String name,category,description;

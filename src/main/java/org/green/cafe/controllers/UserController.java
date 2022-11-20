@@ -14,7 +14,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.green.cafe.models.User;
-import org.green.cafe.models.dto.UserRequest;
+import org.green.cafe.models.dto.requests.UserRequest;
 import org.green.cafe.services.UserService;
 
 import javax.annotation.security.PermitAll;

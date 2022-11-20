@@ -1,14 +1,13 @@
 package org.green.cafe.proxies;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
-import org.green.cafe.models.dto.DistrictResponse;
-import org.green.cafe.models.dto.ProvinceResponse;
-import org.green.cafe.models.dto.RegencyCitiyResponse;
-import org.green.cafe.models.dto.VillageResponse;
+import org.green.cafe.models.dto.responses.DistrictResponse;
+import org.green.cafe.models.dto.responses.ProvinceResponse;
+import org.green.cafe.models.dto.responses.RegencyCitiyResponse;
+import org.green.cafe.models.dto.responses.VillageResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @Path("/api-wilayah-indonesia/api")

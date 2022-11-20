@@ -4,7 +4,7 @@ import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.narayana.jta.runtime.TransactionConfiguration;
 import org.green.cafe.exceptions.ValidationException;
 import org.green.cafe.models.User;
-import org.green.cafe.models.dto.UserRequest;
+import org.green.cafe.models.dto.requests.UserRequest;
 import org.green.cafe.util.FormatUtil;
 
 import javax.enterprise.context.ApplicationScoped;
