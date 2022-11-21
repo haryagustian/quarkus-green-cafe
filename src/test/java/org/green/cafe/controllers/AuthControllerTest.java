@@ -68,10 +68,4 @@ class AuthControllerTest {
         .body("[0].loginName", equalTo(1))
         .body("[0].password", equalTo(BcryptUtil.bcryptHash("rahasia69")));
   }
-
-  @Test
-  void builder() {
-  }
-
-
 }
